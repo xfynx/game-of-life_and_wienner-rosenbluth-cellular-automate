@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>The Game Of Life</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap-theme.css" type="text/css">
+
+</head>
+
+<body>
+<br/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <canvas id="canvas">
+                Not supporting by your browser!
+            </canvas>
+        </div>
+        <div id="info" class="col-md-offset-3 col-md-2">
+            <input type="number" id="size" placeholder="grid size"/>
+            <input type="checkbox" id="draw-grid-flag"/>draw grid?
+            <br/>
+            <button id="draw">Redraw</button>
+            <br/>
+            <button id="randomize">Randomize</button>
+            <br/>
+            <input type="number" id="ms" placeholder="timing"/>
+            <button id="run">Start</button>
+            <button id="stop">Stop</button>
+            <p>Generation: <span id="generation">0</span></p>
+            <p>Alive count: <span id="alive">0</span></p>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.timer.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/vinner-rozenblut.js"></script>
+</body>
+</html>
