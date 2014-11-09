@@ -30,18 +30,6 @@ $(document).ready(function () {
         [0, 0],
         [0, 0]
     ];
-    /*var map = [
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 1, 1, 1, 1, 2, 2, 2, 0, 0],
-     [0, 2, 2, 2, 1, 1, 1, 1, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-     ];*/
 
     var cellWidth = canvas.width / map.length,
         cellHeight = canvas.height / map.length;
@@ -167,16 +155,14 @@ $(document).ready(function () {
         return count;
     }
 
-    function getRandomizer(bottom, top) {
-        return Math.floor(Math.random() * ( 1 + top - bottom )) + bottom;
-    }
-
     function randomizeMap() {
         var roll;
         for (var i = 0; i < map.length; i++) {
             for (var j = 0; j < map[i].length; j++) {
                 roll = getRandomizer(0, 2);
                 if (roll === 2)
+                    map[i][j] = 2;
+                else if (roll === 1)
                     map[i][j] = 1;
                 else
                     map[i][j] = 0;
@@ -184,26 +170,13 @@ $(document).ready(function () {
         }
     }
 
-    var randomizeButton = document.getElementById('randomize');
-    randomizeButton.addEventListener('click', function (event) {
-        randomizeMap();
-        draw();
-    });
-
-    $(canvas).click(function (e) {
-        var canvasOffset = $(canvas).offset();
-        var canvasX = Math.floor(e.pageX - canvasOffset.left);
-        var canvasY = Math.floor(e.pageY - canvasOffset.top);
-        calculateCell(canvasX, canvasY);
-    });
+    function getRandomizer(bottom, top) {
+        return Math.floor(Math.random() * ( 1 + top - bottom )) + bottom;
+    }
 
     function calculateCell(x, y) {
         var i = Math.floor(x / Math.floor(cellHeight));
         var j = Math.floor(y / Math.floor(cellWidth));
-        /*if (map[j][i] === 1)
-         map[j][i] = 0;
-         else
-         map[j][i] = 1;*/
         if (map[j][i] === 2)
             map[j][i] = 0;
         if (map[j][i] === 1)
@@ -227,27 +200,9 @@ $(document).ready(function () {
         cellHeight = canvas.height / map.length;
     }
 
-    var drawButton = document.getElementById('draw');
-    drawButton.addEventListener('click', function (event) {
-        var size = document.getElementById('size').value;
-        if (isNotValid(size))
-            size = "2";
-        makeMap(parseInt(size));
-        $("#generation").text("0");
-        draw();
-    });
-
     function isNotValid(v) {
         return v === "" || v === "0" || v === "1" || v === undefined || v == NaN;
     }
-
-    var timer;
-
-    var startButton = document.getElementById('run');
-    startButton.addEventListener('click', function (event) {
-        setTiming();
-        timer.play();
-    });
 
     function setTiming() {
         timing = document.getElementById('ms').value;
@@ -282,10 +237,43 @@ $(document).ready(function () {
         drawGrid();
     }
 
+    $(canvas).click(function (e) {
+        var canvasOffset = $(canvas).offset();
+        var canvasX = Math.floor(e.pageX - canvasOffset.left);
+        var canvasY = Math.floor(e.pageY - canvasOffset.top);
+        calculateCell(canvasX, canvasY);
+    });
+
+    var randomizeButton = document.getElementById('randomize');
+    randomizeButton.addEventListener('click', function (event) {
+        randomizeMap();
+        draw();
+    });
+
+    var drawButton = document.getElementById('draw');
+    drawButton.addEventListener('click', function (event) {
+        var size = $('#size').val();
+        if (isNotValid(size))
+            size = "2";
+        makeMap(parseInt(size));
+        $("#generation").text("0");
+        draw();
+    });
+
+    var timer;
+
+    var runButton = document.getElementById('run');
+    runButton.addEventListener('click', function (event) {
+        setTiming();
+        timer.play();
+        $("#status").text("STARTED");
+    });
+
     var stopButton = document.getElementById('stop');
     stopButton.addEventListener('click', function (event) {
         draw();
         timer.pause();
+        $("#status").text("STOPPED");
     });
 
 });
