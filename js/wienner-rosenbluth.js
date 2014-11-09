@@ -21,10 +21,10 @@ $(document).ready(function () {
     var canvas = document.getElementById("canvas"),
         context = canvas.getContext("2d");
 
-    canvas.width = 500;
-    canvas.height = 500;
+    canvas.width = 650;
+    canvas.height = 650;
 
-    $('#canvas').css('background-color', 'rgba(0, 0, 0, 1)');
+    $('#canvas').css('background-color', 'rgb(0, 0, 0)');
 
     var map = [
         [0, 0],
@@ -93,8 +93,6 @@ $(document).ready(function () {
             currentX = 0;
             currentY += cellHeight;
         }
-
-        $("#alive").text(checkState());
     }
 
     function recalculateMap() {
@@ -110,6 +108,7 @@ $(document).ready(function () {
                 var j_minus = j - 1;
                 var j_plus = j + 1;
 
+                // Для "округления" мира
                 if (i_minus === -1)
                     i_minus = map.length - 1;
                 if (i_plus === map[i].length || i_plus === -1)
@@ -179,7 +178,7 @@ $(document).ready(function () {
         var j = Math.floor(y / Math.floor(cellWidth));
         if (map[j][i] === 2)
             map[j][i] = 0;
-        if (map[j][i] === 1)
+        else if (map[j][i] === 1)
             map[j][i] = 2;
         else
             map[j][i] = 1;
@@ -223,6 +222,7 @@ $(document).ready(function () {
         else {
             draw();
             timer.pause();
+            $("#status").text("STOPPED");
         }
     }
 
@@ -275,5 +275,4 @@ $(document).ready(function () {
         timer.pause();
         $("#status").text("STOPPED");
     });
-
 });
